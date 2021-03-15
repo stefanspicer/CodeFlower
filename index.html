@@ -114,6 +114,14 @@ $ git ls-files | xargs wc -l > symfony.wc
           </div>
         </fieldset>
         </form>
+        <form id="fileUploader">
+        <fieldset>
+          <input id="fileForUpload" type="file" />
+          <div class="pull-right">
+            <button type="submit" class="btn btn-primary btn-large">Import File</button>
+          </div>
+        </fieldset>
+        </form>
         <h2>Sharing your CodeFlowers</h2>
         <p>The best way to share your CodeFlowers is to use <a href="http://pages.github.com/">GitHub Pages</a>, just like this very page. So just fork the <a href="https://github.com/fzaninotto/CodeFlower"><code>fzaninotto/CodeFlower</code></a> repository, add your own JSON data under the <code>data</code> directory, update the options of the dropdown list in the <code>index.html</code> file accordingly, commit the code, and push to the <code>gh-pages</code> branch. GitHub will publish the result for you.</p>
         <h2>Licence</h2>
@@ -161,6 +169,22 @@ $ git ls-files | xargs wc -l > symfony.wc
         var json = convertToJSON(data, origin);
         document.getElementById('visualization').scrollIntoView();
         createCodeFlower(json);
+      });
+    </script>
+    <script type="text/javascript">
+      document.getElementById('fileUploader').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var file = document.getElementById("fileForUpload").files[0];
+        if (file) {
+          var reader = new FileReader();
+          reader.readAsText(file, "UTF-8");
+          reader.onload = function (evt) {
+            document.getElementById("metricsData").innerHTML = evt.target.result;
+          }
+          reader.onerror = function (evt) {
+            document.getElementById("metricsData").innerHTML = "error reading file";
+          }
+        }
       });
     </script>
     <script type="text/javascript">
